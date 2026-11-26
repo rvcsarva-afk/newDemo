@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FindIt - Lost and Found Portal</title>
+
+<style>
+* {
+box-sizing: border-box;
+scroll-behavior: smooth;
+}
+
+body {
+margin: 0;
+font-family: Arial, sans-serif;
+background: #f3f6fc;
+color: #172554;
+}
+
+header {
+background: #172554;
+color: white;
+padding: 18px 7%;
+display: flex;
+justify-content: space-between;
+align-items: center;
+flex-wrap: wrap;
+gap: 15px;
+position: sticky;
+top: 0;
+z-index: 10;
+}
+
+.logo {
+font-size: 25px;
+font-weight: bold;
+}
+
+nav a {
+color: white;
+text-decoration: none;
+margin: 8px;
+font-size: 14px;
+}
+
+nav a:hover {
+color: #93c5fd;
+}
+
+.hero {
+background: linear-gradient(120deg,#1e3a8a,#3b82f6);
+color: white;
+text-align: center;
+padding: 75px 15px;
+}
+
+.hero h1 {
+font-size: 40px;
+}
+
+.btn {
+display: inline-block;
+padding: 12px 22px;
+background: #fbbf24;
+color: #172554;
+border: 0;
+border-radius: 7px;
+text-decoration: none;
+font-weight: bold;
+cursor: pointer;
+margin: 8px;
+}
+
+section {
+padding: 45px 8%;
+text-align: center;
+}
+
+h2 {
+color: #1e40af;
+}
+
+.cards {
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+gap: 20px;
+}
+
+.card {
+background: white;
+padding: 25px;
+width: 230px;
+border-radius: 12px;
+box-shadow: 0 4px 15px #0001;
+}
+
+.card h3 {
+color: #2563eb;
+}
+
+form {
+background: white;
+max-width: 500px;
+margin: 20px auto;
+padding: 25px;
+border-radius: 12px;
+box-shadow: 0 4px 15px #0001;
+}
+
+input, select, textarea {
+width: 100%;
+padding: 12px;
+margin: 8px 0;
+border: 1px solid #cbd5e1;
+border-radius: 6px;
+}
+
+form button {
+width: 100%;
+padding: 12px;
+background: #2563eb;
+color: white;
+border: 0;
+border-radius: 6px;
+cursor: pointer;
+}
+
+.item {
+background: white;
+padding: 18px;
+margin: 12px;
+border-radius: 10px;
+width: 230px;
+box-shadow: 0 3px 12px #0001;
+text-align: left;
+}
+
+#items {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+}
+
+footer {
+background: #172554;
+color: white;
+padding: 25px;
+text-align: center;
+}
+
+@media(max-width:600px) {
+header {
+justify-content: center;
+}
+nav {
+text-align: center;
+}
+.hero h1 {
+font-size: 30px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">🔍 FindIt</div>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#lost">Report Lost</a>
+<a href="#found">Report Found</a>
+<a href="#browse">Browse Items</a>
+<a href="#about">About</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<!-- HOME PAGE -->
+<div class="hero" id="home">
+<h1>Lost Something? Find It Here!</h1>
+<p>A simple platform to reconnect people
+with their missing belongings.</p>
+
+<a href="#lost" class="btn">Report Lost Item</a>
+<a href="#browse" class="btn">Explore Items</a>
+</div>
+
+<!-- HOW IT WORKS -->
+<section>
+<h2>How FindIt Works</h2>
+
+<div class="cards">
+<div class="card">
+<h3>📢 Report</h3>
+<p>Report your lost or found belongings.</p>
+</div>
+
+<div class="card">
+<h3>🔎 Search</h3>
+<p>Search for items reported by others.</p>
+</div>
+
+<div class="card">
+<h3>🤝 Reconnect</h3>
+<p>Contact the college help desk to
+recover items.</p>
+</div>
+</div>
+</section>
+
+<!-- LOST FORM -->
+<section id="lost">
+<h2>Report a Lost Item</h2>
+<p>Tell us what you have lost.</p>
+
+<form onsubmit="submitItem(event,'Lost')">
+<input id="lostname"
+placeholder="Item Name" required>
+
+<input id="lostplace"
+placeholder="Last Seen Location" required>
+
+<input id="lostdate" type="date" required>
+
+<textarea id="lostdesc"
+placeholder="Item Description"></textarea>
+
+<button type="submit">Submit Lost Item</button>
+</form>
+</section>
+
+<!-- FOUND FORM -->
+<section id="found">
+<h2>Report a Found Item</h2>
+<p>Help someone find their missing belongings.</p>
+
+<form onsubmit="submitItem(event,'Found')">
+<input id="foundname"
+placeholder="Item Name" required>
+
+<input id="foundplace"
+placeholder="Found Location" required>
+
+<input id="founddate" type="date" required>
+
+<textarea id="founddesc"
+placeholder="Item Description"></textarea>
+
+<button type="submit">Submit Found Item</button>
+</form>
+</section>
+
+<!-- BROWSE ITEMS -->
+<section id="browse">
+<h2>Browse Reported Items</h2>
+<p>Search and explore lost and found items.</p>
+
+<input id="search"
+placeholder="Search Item Name..."
+oninput="displayItems()"
+style="max-width:400px">
+
+<select id="filter"
+onchange="displayItems()"
+style="max-width:200px">
+
+<option value="All">All Items</option>
+<option value="Lost">Lost Items</option>
+<option value="Found">Found Items</option>
+
+</select>
+
+<div id="items"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+<h2>About FindIt</h2>
+
+<p>
+FindIt is a student-friendly Lost and Found
+Portal designed to help college students
+report missing belongings and discover
+found items.
+
+Our goal is to make finding lost belongings
+easier through a simple digital platform.
+</p>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+<h2>Contact Us</h2>
+<p>Need help recovering an item?</p>
+
+<div class="card" style="margin:auto">
+<h3>College Help Desk</h3>
+<p>Visit your college office to verify
+and collect your belongings.</p>
+<p>FindIt Lost & Found Portal</p>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+<h3>🔍 FindIt - Lost & Found Portal</h3>
+<p>Helping people reconnect with their belongings.</p>
+<p>© 2026 FindIt. All Rights Reserved.</p>
+</footer>
+
+<script>
+
+// Load saved items
+let items = JSON.parse(
+localStorage.getItem("finditItems")
+) || [];
+
+// Submit lost or found item
+function submitItem(event,type) {
+event.preventDefault();
+
+let prefix = type.toLowerCase();
+
+let item = {
+name: document.getElementById(prefix+"name").value,
+place: document.getElementById(prefix+"place").value,
+date: document.getElementById(prefix+"date").value,
+desc: document.getElementById(prefix+"desc").value,
+type: type
+};
+
+items.push(item);
+
+localStorage.setItem(
+"finditItems",
+JSON.stringify(items)
+);
+
+alert(type + " item submitted successfully!");
+
+event.target.reset();
+
+displayItems();
+
+document.getElementById("browse").scrollIntoView();
+}
+
+// Display and search items
+function displayItems() {
+
+let search = document.getElementById("search")
+.value.toLowerCase();
+
+let filter = document.getElementById("filter").value;
+
+let list = document.getElementById("items");
+
+list.innerHTML = "";
+
+let result = items.filter(item =>
+item.name.toLowerCase().includes(search) &&
+(filter === "All" || item.type === filter)
+);
+
+if(result.length === 0) {
+list.textContent = "No matching items found.";
+return;
+}
+
+result.forEach(item => {
+
+let card = document.createElement("div");
+card.className = "item";
+
+let title = document.createElement("h3");
+title.textContent = item.name;
+
+let status = document.createElement("b");
+status.textContent = item.type + " ITEM";
+
+let place = document.createElement("p");
+place.textContent = "Location: " + item.place;
+
+let date = document.createElement("p");
+date.textContent = "Date: " + item.date;
+
+let desc = document.createElement("p");
+desc.textContent = item.desc || "No description";
+
+card.append(title,status,place,date,desc);
+list.appendChild(card);
+
+});
+}
+
+// Show saved items when page opens
+displayItems();
+
+</script>
+
+</body>
+</html>
